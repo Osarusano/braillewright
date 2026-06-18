@@ -5,7 +5,7 @@ Period Pro plugin (both GPLv2-or-later, by Compete Themes), maintained so the
 accessibility of the published sites can be remediated on demand.
 
 - `theme/braillewright/` — the theme (forked from **Period** 1.750)
-- `plugin/braillewright-companion/` — the companion plugin (forked from **Period Pro** 1.16)
+- `plugin/braillewright-pro/` — the Pro plugin (forked from **Period Pro** 1.16)
 - `docs/` — provenance + the accessibility audit / defect register
 - `.github/workflows/` — CI (PHPCS, PHPCompatibility, PHPStan, axe/pa11y/Lighthouse) — added in a later phase
 

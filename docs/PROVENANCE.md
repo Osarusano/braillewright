@@ -5,7 +5,7 @@ Braillewright is an in-house fork of two **GPLv2-or-later** packages by Compete 
 | Upstream | Version | Imported to |
 |---|---|---|
 | Period (theme) | 1.750 | `theme/braillewright/` |
-| Period Pro (plugin) | 1.16 | `plugin/braillewright-companion/` |
+| Period Pro (plugin) | 1.16 | `plugin/braillewright-pro/` |
 
 ## Upstream source artifacts (integrity)
 
