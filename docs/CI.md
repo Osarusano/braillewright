@@ -11,7 +11,7 @@ compatibility/advisory drift.
 | Job | Tool | Gate | Notes |
 |---|---|---|---|
 | **PHP syntax lint** | `php -l` on PHP 8.3 | **Blocking** | All 56 PHP files must parse on the Atomic runtime. |
-| **Security sniffs** | PHPCS `WordPress.Security.*` | **Blocking** | 0 findings after the Phase 3 pass (2026-06-18); blocks new regressions. |
+| **Security sniffs** | PHPCS `EscapeOutput` + `NonceVerification` | **Blocking** | 0 after the Phase 3 pass (2026-06-18). `ValidatedSanitizedInput` (`$_POST` unslashing) is the next increment. |
 | **Coding standards (style)** | PHPCS `WordPress-Extra` | Advisory | ~4,900 cosmetic findings; `phpcs-report` artifact. |
 | **PHP 8.3+ compatibility** | PHPCompatibility (`testVersion 8.3-`) | **Blocking** | Verified 0 findings on 8.3 (2026-06-18). `phpcompat-report` artifact. |
 | **Static analysis** | PHPStan level 5 + WordPress stubs | **Blocking (new issues)** | 45 inherited findings in `phpstan-baseline.neon`; fails only on regressions. |
@@ -34,11 +34,15 @@ upload their full findings as artifacts to triage.
 2. **PHPStan — DONE (2026-06-18).** The first run's 45 findings were committed as
    `phpstan-baseline.neon` and the baseline `include` enabled; analysis now fails
    only on **new** issues. After remediation, refresh with `composer analyse:baseline`.
-3. **Security sniffs — DONE (2026-06-18).** The Phase 3 security pass resolved
-   all 65 `WordPress.Security.*` findings, so a dedicated security-sniffs step is
-   now blocking (regression protection). The full WordPress-Extra **style** check
-   stays advisory (~4,900 cosmetic findings); `composer lint:fix` (phpcbf) can
-   chip away at the mechanically-fixable subset incrementally.
+3. **Security sniffs — DONE (2026-06-18).** The Phase 3 pass resolved all 65
+   `EscapeOutput` (XSS) + `NonceVerification` (CSRF) findings, so those sniffs are
+   now blocking (regression protection). **Next increment:**
+   `WordPress.Security.ValidatedSanitizedInput` — 13 `$_POST`-unslashing spots
+   across 6 save handlers (last-updated-meta-box, functions, featured-sliders,
+   page-layouts, featured-videos, featured-image-size), surfaced by the stricter
+   `--standard=WordPress`. Wrap each in `wp_unslash()` + a sanitizer, then add the
+   sniff to the blocking step. The full WordPress-Extra **style** check stays
+   advisory (~4,900 cosmetic findings); `composer lint:fix` chips at the fixable subset.
 4. **Accessibility — keep advisory** until stable across several runs (first run:
    0 errors). Then drop `continue-on-error` from the pa11y / Lighthouse steps.
 
