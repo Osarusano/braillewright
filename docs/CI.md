@@ -11,7 +11,8 @@ compatibility/advisory drift.
 | Job | Tool | Gate | Notes |
 |---|---|---|---|
 | **PHP syntax lint** | `php -l` on PHP 8.3 | **Blocking** | All 56 PHP files must parse on the Atomic runtime. |
-| **Coding standards + security** | PHPCS `WordPress-Extra` (incl. `WordPress.Security.*`) | Advisory → blocking | Full report uploaded as the `phpcs-report` artifact. |
+| **Security sniffs** | PHPCS `EscapeOutput` + `NonceVerification` | **Blocking** | 0 after the Phase 3 pass (2026-06-18). `ValidatedSanitizedInput` (`$_POST` unslashing) is the next increment. |
+| **Coding standards (style)** | PHPCS `WordPress-Extra` | Advisory | ~4,900 cosmetic findings; `phpcs-report` artifact. |
 | **PHP 8.3+ compatibility** | PHPCompatibility (`testVersion 8.3-`) | **Blocking** | Verified 0 findings on 8.3 (2026-06-18). `phpcompat-report` artifact. |
 | **Static analysis** | PHPStan level 5 + WordPress stubs | **Blocking (new issues)** | 45 inherited findings in `phpstan-baseline.neon`; fails only on regressions. |
 | **Accessibility** | wp-env + pa11y-ci (axe + HTML_CodeSniffer) + Lighthouse CI | Advisory | Scans a clean WP install with the theme + plugin active. |
@@ -21,9 +22,10 @@ compatibility/advisory drift.
 Braillewright is a fork of ~12,300 LOC of upstream code. Hard-gating everything on
 day one would just paint the pipeline red against inherited debt and hide real
 regressions. So jobs were introduced in report mode and promoted as their findings
-were understood. As of 2026-06-18: **php-lint, PHPCompatibility, and PHPStan
-(baselined) are blocking**; **PHPCS and accessibility remain advisory**
-(`continue-on-error: true`) and upload their full findings as artifacts to triage.
+were understood. As of 2026-06-18: **php-lint, PHPCompatibility, PHPStan
+(baselined), and the PHPCS security sniffs are blocking**; the **full PHPCS
+style check and accessibility remain advisory** (`continue-on-error: true`) and
+upload their full findings as artifacts to triage.
 
 ### The tightening path (status)
 
@@ -32,11 +34,15 @@ were understood. As of 2026-06-18: **php-lint, PHPCompatibility, and PHPStan
 2. **PHPStan — DONE (2026-06-18).** The first run's 45 findings were committed as
    `phpstan-baseline.neon` and the baseline `include` enabled; analysis now fails
    only on **new** issues. After remediation, refresh with `composer analyse:baseline`.
-3. **Coding standards / security — pending.** Work the `phpcs-report` findings
-   down (the Phase 2 pre-ship security pass targets the ~14 unescaped-output
-   spots + the plugin's input handling), then drop `continue-on-error` from
-   `coding-standards`. `composer lint:fix` (phpcbf) handles the mechanically-
-   fixable subset first.
+3. **Security sniffs — DONE (2026-06-18).** The Phase 3 pass resolved all 65
+   `EscapeOutput` (XSS) + `NonceVerification` (CSRF) findings, so those sniffs are
+   now blocking (regression protection). **Next increment:**
+   `WordPress.Security.ValidatedSanitizedInput` — 13 `$_POST`-unslashing spots
+   across 6 save handlers (last-updated-meta-box, functions, featured-sliders,
+   page-layouts, featured-videos, featured-image-size), surfaced by the stricter
+   `--standard=WordPress`. Wrap each in `wp_unslash()` + a sanitizer, then add the
+   sniff to the blocking step. The full WordPress-Extra **style** check stays
+   advisory (~4,900 cosmetic findings); `composer lint:fix` chips at the fixable subset.
 4. **Accessibility — keep advisory** until stable across several runs (first run:
    0 errors). Then drop `continue-on-error` from the pa11y / Lighthouse steps.
 

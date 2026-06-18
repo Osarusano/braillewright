@@ -36,7 +36,7 @@ function ct_period_pro_slider_callback( $post ) {
 		// if there are no sliders, link them to the creation page
 		if ( empty( $sliders ) ) {
 			$link = add_query_arg( 'page', 'metaslider', admin_url( 'admin.php' ) );
-			echo '<p class="slider-notice"> ' . sprintf( __( "Looks like you don't have any Sliders yet. <a href='%s' target='_blank'>Click here</a> to create your first slider.", "braillewright-pro" ), esc_url( $link ) ) . '</p>';
+			echo wp_kses_post( '<p class="slider-notice"> ' . sprintf( __( "Looks like you don't have any Sliders yet. <a href='%s' target='_blank'>Click here</a> to create your first slider.", "braillewright-pro" ), esc_url( $link ) ) . '</p>' );
 		}
 
 		// add dropdown for selecting a slider
@@ -52,7 +52,7 @@ function ct_period_pro_slider_callback( $post ) {
 					?>
 					<option value="<?php echo absint( $id ); ?>" <?php if ( $id == $slider_id ) {
 						echo 'selected';
-					} ?>><?php echo sanitize_text_field( $title ); ?></option>
+					} ?>><?php echo esc_html( $title ); ?></option>
 				<?php }
 			echo '</select>';
 			echo '<p><em> ' . esc_html__( "Recommended slider dimensions: 2x1", "braillewright-pro" ) . '</em></p>';
@@ -92,7 +92,7 @@ function ct_period_pro_slider_callback( $post ) {
 		// if Meta Slider is installed, but not active
 		if ( array_key_exists( 'ml-slider/ml-slider.php', $plugins ) ) {
 			$link_plugins = admin_url( 'plugins.php' );
-			echo '<p class="slider-notice">' . sprintf( __( "Please activate Meta Slider from the <a href='%s'>Plugins menu</a>.", "braillewright-pro" ), esc_url( $link_plugins ) );
+			echo wp_kses_post( '<p class="slider-notice">' . sprintf( __( "Please activate Meta Slider from the <a href='%s'>Plugins menu</a>.", "braillewright-pro" ), esc_url( $link_plugins ) ) );
 		} else { // if not installed and not active
 			echo '<div class="ct_period_pro_slider_no_slider_container">';
 			$link_ml_search = add_query_arg( array(
@@ -100,7 +100,7 @@ function ct_period_pro_slider_callback( $post ) {
 				's'   => 'metaslider'
 			), admin_url( 'plugin-install.php' ) );
 			echo '<p class="slider-notice">' . esc_html__( "Featured Sliders require the Meta Slider plugin.", "braillewright-pro" );
-			echo ' ' . sprintf( __( "<a href='%s'>Click here</a> to find and install Meta Slider from the Plugins menu.", "braillewright-pro" ), esc_url( $link_ml_search ) ) . '</p>';
+			echo wp_kses_post( ' ' . sprintf( __( "<a href='%s'>Click here</a> to find and install Meta Slider from the Plugins menu.", "braillewright-pro" ), esc_url( $link_ml_search ) ) . '</p>' );
 			echo '</div>';
 		}
 	}
