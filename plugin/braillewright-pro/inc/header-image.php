@@ -41,7 +41,7 @@ function ct_period_pro_output_header_image() {
 		if ($filetype['type'] == 'video/mp4') {
 			echo do_shortcode('[video mp4=' . esc_url($header_video) . ' loop="on" autoplay="on" muted="true"]');
 		} else {
-			echo wp_oembed_get( esc_url( $header_video ) );
+			echo wp_oembed_get( esc_url( $header_video ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- WP oembed HTML (iframe) from an esc_url'd URL.
 		}
 		echo '</span>';
 	}

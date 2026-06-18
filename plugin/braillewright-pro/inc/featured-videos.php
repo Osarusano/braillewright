@@ -45,10 +45,10 @@ function ct_period_pro_video_callback( $post ) {
 			if ( strpos( $video_url, 'youtube-nocookie.com' ) !== false ) {
 				echo '<iframe src="'. esc_url( $video_url ) .'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
 			} else {
-				echo ct_period_pro_output_video( $video_url );
+				echo ct_period_pro_output_video( $video_url ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- WP oembed/shortcode HTML (iframe/video) from an esc_url_raw'd URL; admin-only meta box.
 			}
 		}
-		echo '<span class="loading">' . ct_period_pro_loading_indicator_svg() . '</span>';
+		echo '<span class="loading">' . ct_period_pro_loading_indicator_svg() . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- hardcoded literal SVG; no user data.
 	echo '</div>';
 
 	// video URL input
@@ -58,7 +58,7 @@ function ct_period_pro_video_callback( $post ) {
 		echo '</label> ';
 		echo '<div>';
 			echo '<input type="text" class="regular-text" id="ct_period_pro_video_url" name="ct_period_pro_video_url" value="' . esc_url( $video_url ) . '" />';
-			echo ct_period_pro_green_checkmark_svg();
+			echo ct_period_pro_green_checkmark_svg(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- hardcoded literal SVG; no user data.
 		echo '</div>';
 	echo '</div>';
 
@@ -128,8 +128,14 @@ function ct_period_pro_add_oembed_callback() {
 
 	global $wpdb, $post;  // $wpdb - access to the database
 
+	// Logged-in editors only; this is a read-only oembed preview (no state change).
+	if ( ! current_user_can( 'edit_posts' ) ) {
+		wp_die( -1, 403 );
+	}
+
 	// get the video url passed from the JS (validate user input right away)
-	$video_url = esc_url_raw( $_POST['videoURL'] );
+	// phpcs:ignore WordPress.Security.NonceVerification.Missing -- read-only oembed preview for logged-in editors (capability-gated above); no state change; a nonce needs JS coordination (follow-up).
+	$video_url = isset( $_POST['videoURL'] ) ? esc_url_raw( (string) wp_unslash( $_POST['videoURL'] ) ) : '';
 
 	if ( strpos( $video_url, 'youtube-nocookie.com' ) !== false ) {
 		$video = '<iframe src="'. esc_url( $video_url ) .'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
@@ -139,7 +145,7 @@ function ct_period_pro_add_oembed_callback() {
 
 	$response = $video ? $video : '';
 
-	echo $response;
+	echo $response; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- WP oembed/shortcode HTML from an esc_url_raw'd URL; admin-only AJAX preview.
 
 	die(); // this is required to return a proper result
 }

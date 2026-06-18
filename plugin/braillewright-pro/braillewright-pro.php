@@ -43,7 +43,7 @@ if ( get_template() != 'braillewright' ) {
 				<p>
 					<?php
 					$link = admin_url( 'themes.php' );
-					printf( __( 'Almost done! Please <a id="switch-themes-link" href="%s">click here</a> to activate the Braillewright theme and use the Braillewright Pro plugin.', 'braillewright-pro' ), esc_url( $link ) );
+					echo wp_kses_post( sprintf( __( 'Almost done! Please <a id="switch-themes-link" href="%s">click here</a> to activate the Braillewright theme and use the Braillewright Pro plugin.', 'braillewright-pro' ), esc_url( $link ) ) );
 					?>
 				</p>
 			</div>
@@ -53,7 +53,7 @@ if ( get_template() != 'braillewright' ) {
 		// switch to Braillewright theme, and send them to the Appearance menu
 		function ct_period_pro_switch_themes() {
 			switch_theme( 'braillewright', 'braillewright' );
-			echo admin_url( 'themes.php' );
+			echo esc_url( admin_url( 'themes.php' ) );
 			wp_die();
 		}
 		add_action( 'wp_ajax_ct_switch_themes', 'ct_period_pro_switch_themes' );
@@ -89,7 +89,7 @@ if ( get_template() != 'braillewright' ) {
 					$link_period_search = add_query_arg(
 						'search', 'braillewright', admin_url( 'theme-install.php' )
 					);
-					printf( __( "Braillewright Pro needs the Braillewright theme to work. Please <a href='%s'>click here</a> to find and install Period from the Appearance menu.", "braillewright-pro" ), esc_url( $link_period_search ) )
+					echo wp_kses_post( sprintf( __( "Braillewright Pro needs the Braillewright theme to work. Please <a href='%s'>click here</a> to find and install Period from the Appearance menu.", "braillewright-pro" ), esc_url( $link_period_search ) ) )
 					?>
 				</p>
 			</div>
@@ -158,7 +158,7 @@ if ( get_template() != 'braillewright' ) {
 						),
 						admin_url( 'customize.php' )
 					);
-					printf( __( 'New features now available in the <a href="%s">Customizer</a>!', 'braillewright-pro' ), esc_url( $customizer_url ) );
+					echo wp_kses_post( sprintf( __( 'New features now available in the <a href="%s">Customizer</a>!', 'braillewright-pro' ), esc_url( $customizer_url ) ) );
 					?>
 				</p>
 			</div>
