@@ -1,0 +1,157 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # BLOCKING. Every PHP file must parse on PHP 8.3 (the Atomic runtime).
+  # ---------------------------------------------------------------------------
+  php-lint:
+    name: PHP syntax lint (8.3)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up PHP 8.3
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+          tools: none
+      - name: Lint every PHP file
+        run: |
+          set -euo pipefail
+          find theme plugin tools -name '*.php' -print0 \
+            | xargs -0 -P8 -n1 -- php -l
+
+  # ---------------------------------------------------------------------------
+  # BLOCKING. Verified 0 findings on PHP 8.3 (CI run 2026-06-18), so this gate
+  # is enforced. PHPCompatibilityWP accounts for WordPress core polyfills.
+  # ---------------------------------------------------------------------------
+  php-compatibility:
+    name: PHP 8.3+ compatibility (PHPCompatibility)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up PHP 8.3 + Composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+          tools: composer:v2
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist
+      - name: PHPCompatibility (testVersion 8.3-)
+        run: composer compat -- --report-full --report-checkstyle=phpcompat-report.xml
+      - name: Upload compatibility report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: phpcompat-report
+          path: phpcompat-report.xml
+          if-no-files-found: ignore
+
+  # ---------------------------------------------------------------------------
+  # BLOCKING on NEW issues. The 45 inherited findings are captured in
+  # phpstan-baseline.neon; analysis fails only on regressions. Regenerate the
+  # baseline with `composer analyse:baseline`. See docs/CI.md.
+  # ---------------------------------------------------------------------------
+  static-analysis:
+    name: Static analysis (PHPStan + WordPress stubs)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up PHP 8.3 + Composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+          tools: composer:v2
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist
+      - name: PHPStan (level 5, baselined)
+        run: composer analyse -- --error-format=github
+
+  # ---------------------------------------------------------------------------
+  # ADVISORY (continue-on-error). PHPCS WordPress-Extra on a ~12K-LOC fork still
+  # reports thousands of mostly-stylistic findings; this surfaces the full
+  # triage list + the security subset without blocking. Flip continue-on-error
+  # to false once the register is worked down (see docs/CI.md — the security pass).
+  # ---------------------------------------------------------------------------
+  coding-standards:
+    name: Coding standards + security (PHPCS WordPress-Extra)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up PHP 8.3 + Composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+          tools: composer:v2
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist
+      - name: PHPCS
+        continue-on-error: true
+        run: composer lint -- --report-full --report-checkstyle=phpcs-report.xml
+      - name: Upload PHPCS report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: phpcs-report
+          path: phpcs-report.xml
+          if-no-files-found: ignore
+
+  # ---------------------------------------------------------------------------
+  # Accessibility: WordPress (wp-env, PHP 8.3) with the theme + plugin active,
+  # scanned with axe + HTML_CodeSniffer (pa11y-ci) and Lighthouse. Gates the
+  # THEME/PLUGIN template-level a11y; TTT content/widget defects are a separate,
+  # content-safety concern. Advisory until proven stable across several runs
+  # (first run: 0 errors across home + post + page).
+  # ---------------------------------------------------------------------------
+  accessibility:
+    name: Accessibility (wp-env + axe/pa11y + Lighthouse)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - name: Install npm dependencies
+        run: npm ci
+      - name: Start wp-env (WordPress + PHP 8.3; theme + plugin mounted)
+        run: npx wp-env start
+      - name: Activate theme + plugin
+        run: |
+          npx wp-env run cli wp theme activate braillewright
+          npx wp-env run cli wp plugin activate braillewright-pro
+      - name: pa11y-ci (WCAG2AA — axe + HTML_CodeSniffer)
+        continue-on-error: true
+        run: npx pa11y-ci --json > pa11y-report.json
+      - name: Lighthouse CI (accessibility category)
+        continue-on-error: true
+        run: npx lhci autorun
+      - name: Upload accessibility reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: a11y-reports
+          path: |
+            pa11y-report.json
+            .lighthouseci/
+          if-no-files-found: ignore
+      - name: Stop wp-env
+        if: always()
+        run: npx wp-env stop
