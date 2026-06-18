@@ -157,12 +157,6 @@ parameters:
 			path: theme/braillewright/inc/customizer.php
 
 		-
-			message: '#^Variable \$s might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: theme/braillewright/search.php
-
-		-
 			message: '#^Function is_account_page not found\.$#'
 			identifier: function.notFound
 			count: 1
