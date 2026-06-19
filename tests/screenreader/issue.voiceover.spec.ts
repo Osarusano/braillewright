@@ -17,6 +17,8 @@ test.describe("Braillewright issue page — VoiceOver", () => {
         // 2) What VoiceOver announces walking into the article content.
         const speech = await collectVoiceOverSpeech(voiceOver);
         console.log(`[VoiceOver issue spoken log]\n${speech}`);
-        expectSpoken(speech, ["skip"]);
+        // VoiceOver announces the skip-link entry point AND navigates the heading
+        // structure (VO-Command-H) — the primary screen-reader navigation method.
+        expectSpoken(speech, ["skip", "heading"]);
     });
 });

@@ -57,33 +57,30 @@ export async function collectSpeechWalk(
 }
 
 /**
- * VoiceOver walk. On macOS, voiceOver.next() can stall at the web-area boundary
- * (it repeats the first element), so this captures the reliably-announced entry
- * point, then attempts to descend (interact) and jump control-to-control with
- * findNextControl. The full result is returned lowercased for substring asserts
- * and is logged so a later iteration can deepen the VoiceOver assertions on
- * evidence. Best-effort: traversal failures never lose the entry-point capture.
+ * VoiceOver walk. On macOS, voiceOver.next() stalls at the web-area boundary (it
+ * repeats the first element) and findNextControl sticks on the last control, so
+ * this captures the reliably-announced entry point (the skip link) and then walks
+ * the page by HEADING via VO-Command-H (`findNextHeading`) — the primary way
+ * screen-reader users navigate. It stops as soon as a heading jump stops advancing
+ * (same phrase twice = wrapped past the last heading), which keeps the walk clean.
+ * Returns the full captured speech lowercased for substring assertions.
  */
-export async function collectVoiceOverSpeech(sr: any, maxSteps = 25): Promise<string> {
+export async function collectVoiceOverSpeech(sr: any, maxSteps = 30): Promise<string> {
     await sr.navigateToWebContent();
     const phrases: string[] = [(await sr.lastSpokenPhrase()) ?? ""];
-    try {
-        await sr.interact();
-    } catch {
-        /* interact isn't always required/available; ignore */
-    }
+    let prev = "";
     for (let i = 0; i < maxSteps; i++) {
         try {
-            await sr.perform(sr.keyboardCommands.findNextControl);
-            phrases.push((await sr.lastSpokenPhrase()) ?? "");
+            await sr.perform(sr.keyboardCommands.findNextHeading);
         } catch {
             break;
         }
-    }
-    try {
-        phrases.push(...(await sr.spokenPhraseLog()));
-    } catch {
-        /* ignore */
+        const phrase = (await sr.lastSpokenPhrase()) ?? "";
+        if (phrase && phrase === prev) {
+            break; // wrapped past the last heading — stop
+        }
+        phrases.push(phrase);
+        prev = phrase;
     }
     return phrases.join(" \n ").toLowerCase();
 }

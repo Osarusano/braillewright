@@ -17,9 +17,9 @@ test.describe("Braillewright home — VoiceOver", () => {
         // 2) What VoiceOver actually announces walking the page chrome.
         const speech = await collectVoiceOverSpeech(voiceOver);
         console.log(`[VoiceOver home spoken log]\n${speech}`);
-        // Hard assertion: the reliably-announced skip link. collectVoiceOverSpeech
-        // also attempts a control-jump walk (logged above) to deepen this later.
-        expectSpoken(speech, ["skip"]);
+        // VoiceOver announces the skip-link entry point AND navigates the heading
+        // structure (VO-Command-H) — the primary screen-reader navigation method.
+        expectSpoken(speech, ["skip", "heading"]);
     });
 
     test("primary nav toggle exposes expanded/collapsed state (mobile)", async ({ page, voiceOver }) => {
