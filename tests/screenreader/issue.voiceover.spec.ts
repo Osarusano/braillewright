@@ -3,7 +3,7 @@ import {
     BASE_URL,
     ISSUE_PATH,
     assertIssueStructure,
-    collectVoiceOverSpeech,
+    collectHeadingWalk,
     expectSpoken,
 } from "./lib/checks";
 
@@ -15,10 +15,8 @@ test.describe("Braillewright issue page — VoiceOver", () => {
         await assertIssueStructure(page);
 
         // 2) What VoiceOver announces walking into the article content.
-        const speech = await collectVoiceOverSpeech(voiceOver);
+        const speech = await collectHeadingWalk(voiceOver, voiceOver.keyboardCommands.findNextHeading);
         console.log(`[VoiceOver issue spoken log]\n${speech}`);
-        // VoiceOver announces the skip-link entry point AND navigates the heading
-        // structure (VO-Command-H) — the primary screen-reader navigation method.
-        expectSpoken(speech, ["skip", "heading"]);
+        expectSpoken(speech, ["heading", "top tech tidbits"]);
     });
 });

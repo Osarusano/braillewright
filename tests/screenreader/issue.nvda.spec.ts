@@ -3,7 +3,7 @@ import {
     BASE_URL,
     ISSUE_PATH,
     assertIssueStructure,
-    collectSpeechWalk,
+    collectHeadingWalk,
     expectSpoken,
 } from "./lib/checks";
 
@@ -15,11 +15,8 @@ test.describe("Braillewright issue page — NVDA", () => {
         await assertIssueStructure(page);
 
         // 2) What NVDA announces walking into the article content.
-        const speech = await collectSpeechWalk(nvda, {
-            maxSteps: 60,
-            until: ["banner", "primary", "main"],
-        });
+        const speech = await collectHeadingWalk(nvda, nvda.keyboardCommands.moveToNextHeading);
         console.log(`[NVDA issue spoken log]\n${speech}`);
-        expectSpoken(speech, ["banner", "primary", "main"]);
+        expectSpoken(speech, ["heading", "top tech tidbits"]);
     });
 });

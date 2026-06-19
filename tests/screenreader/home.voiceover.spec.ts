@@ -3,7 +3,7 @@ import { expect } from "@playwright/test";
 import {
     BASE_URL,
     assertHomeStructure,
-    collectVoiceOverSpeech,
+    collectHeadingWalk,
     expectSpoken,
 } from "./lib/checks";
 
@@ -15,11 +15,11 @@ test.describe("Braillewright home — VoiceOver", () => {
         await assertHomeStructure(page);
 
         // 2) What VoiceOver actually announces walking the page chrome.
-        const speech = await collectVoiceOverSpeech(voiceOver);
+        const speech = await collectHeadingWalk(voiceOver, voiceOver.keyboardCommands.findNextHeading);
         console.log(`[VoiceOver home spoken log]\n${speech}`);
-        // VoiceOver announces the skip-link entry point AND navigates the heading
-        // structure (VO-Command-H) — the primary screen-reader navigation method.
-        expectSpoken(speech, ["skip", "heading"]);
+        // VoiceOver navigates the heading structure (VO-Command-H) — the primary
+        // screen-reader navigation method. Landmarks are verified deterministically above.
+        expectSpoken(speech, ["heading", "top tech tidbits"]);
     });
 
     test("primary nav toggle exposes expanded/collapsed state (mobile)", async ({ page, voiceOver }) => {

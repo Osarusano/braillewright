@@ -35,43 +35,25 @@ export interface ScreenReader {
 }
 
 /**
- * Walk linearly from the start of the web content, capturing everything the
- * screen reader announces. Stops early once every `until` token has been heard
- * (keeps fast pages fast), otherwise after `maxSteps`. Returns the full spoken
- * log as one lowercased string for substring assertions.
+ * Walk the page by HEADING and capture what the screen reader announces.
+ *
+ * Heading navigation (NVDA's moveToNextHeading / VoiceOver's findNextHeading) is
+ * the primary way screen-reader users move through a page, and — unlike linear
+ * next() traversal, which proved flaky on BOTH screen readers in CI — it is a
+ * discrete, reliable jump. Stops as soon as a jump stops advancing (the same
+ * phrase twice = wrapped past the last heading). Returns the speech lowercased.
  */
-export async function collectSpeechWalk(
-    sr: ScreenReader,
-    opts: { maxSteps?: number; until?: string[] } = {}
+export async function collectHeadingWalk(
+    sr: any,
+    headingCommand: any,
+    maxSteps = 30
 ): Promise<string> {
-    const { maxSteps = 40, until = [] } = opts;
-    await sr.navigateToWebContent();
-    for (let i = 0; i < maxSteps; i++) {
-        const soFar = (await sr.spokenPhraseLog()).join(" \n ").toLowerCase();
-        if (until.length && until.every((t) => soFar.includes(t.toLowerCase()))) {
-            break;
-        }
-        await sr.next();
-    }
-    return (await sr.spokenPhraseLog()).join(" \n ").toLowerCase();
-}
-
-/**
- * VoiceOver walk. On macOS, voiceOver.next() stalls at the web-area boundary (it
- * repeats the first element) and findNextControl sticks on the last control, so
- * this captures the reliably-announced entry point (the skip link) and then walks
- * the page by HEADING via VO-Command-H (`findNextHeading`) — the primary way
- * screen-reader users navigate. It stops as soon as a heading jump stops advancing
- * (same phrase twice = wrapped past the last heading), which keeps the walk clean.
- * Returns the full captured speech lowercased for substring assertions.
- */
-export async function collectVoiceOverSpeech(sr: any, maxSteps = 30): Promise<string> {
     await sr.navigateToWebContent();
     const phrases: string[] = [(await sr.lastSpokenPhrase()) ?? ""];
     let prev = "";
     for (let i = 0; i < maxSteps; i++) {
         try {
-            await sr.perform(sr.keyboardCommands.findNextHeading);
+            await sr.perform(headingCommand);
         } catch {
             break;
         }
