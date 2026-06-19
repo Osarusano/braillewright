@@ -4,13 +4,13 @@ parameters:
 			message: '#^Function switch_theme invoked with 2 parameters, 1 required\.$#'
 			identifier: arguments.count
 			count: 1
-			path: theme/braillewright/features/braillewright-pro.php
+			path: theme/braillewright/features/bootstrap.php
 
 		-
 			message: '#^Parameter \#2 \$allowed_html of function wp_kses expects array\<array\>\|string, array\<int, string\> given\.$#'
 			identifier: argument.type
 			count: 1
-			path: theme/braillewright/features/braillewright-pro.php
+			path: theme/braillewright/features/bootstrap.php
 
 		-
 			message: '#^Constant PERIOD_PRO_PATH not found\.$#'
