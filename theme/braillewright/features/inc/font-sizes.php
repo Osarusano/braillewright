@@ -1,7 +1,7 @@
 <?php
 defined( 'ABSPATH' ) OR exit;
 
-function ct_period_pro_font_size_css() {
+function braillewright_features_font_size_css() {
   $css = '';
 
   $site_title_mobile  = get_theme_mod('site_title_font_size_mobile');
@@ -303,10 +303,10 @@ function ct_period_pro_font_size_css() {
 
   if ( ! empty( $css ) ) {
 
-    $css = ct_period_pro_sanitize_css( $css );
+    $css = braillewright_features_sanitize_css( $css );
 
-    wp_add_inline_style( 'ct-period-style', $css );
-    wp_add_inline_style( 'ct-period-style-rtl', $css );
+    wp_add_inline_style( 'braillewright-style', $css );
+    wp_add_inline_style( 'braillewright-style-rtl', $css );
   }
 }
-add_action( 'wp_enqueue_scripts', 'ct_period_pro_font_size_css', 99 );
+add_action( 'wp_enqueue_scripts', 'braillewright_features_font_size_css', 99 );

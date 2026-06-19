@@ -1,12 +1,12 @@
 <?php
 defined( 'ABSPATH' ) OR exit;
 
-function ct_period_pro_add_body_classes( $classes ) {
+function braillewright_features_add_body_classes( $classes ) {
 
 	$post_layout    		= get_theme_mod( 'layout' );
-	$post_layout 				= apply_filters( 'ct_period_pro_layout_filter', $post_layout );
+	$post_layout 				= apply_filters( 'braillewright_features_layout_filter', $post_layout );
 	$page_layout    		= get_theme_mod( 'layout_pages' );
-	$page_layout    		= apply_filters( 'ct_period_pro_layout_filter', $page_layout );
+	$page_layout    		= apply_filters( 'braillewright_features_layout_filter', $page_layout );
 	$blog_layout    		= get_theme_mod( 'layout_blog' );
 	$archives_layout    = get_theme_mod( 'layout_archives' );
 
@@ -25,10 +25,10 @@ function ct_period_pro_add_body_classes( $classes ) {
 
 	return $classes;
 }
-add_action( 'body_class', 'ct_period_pro_add_body_classes' );
+add_action( 'body_class', 'braillewright_features_add_body_classes' );
 
 // remove the sidebar if the current layout calls for it
-function ct_period_pro_remove_primary_sidebar( $sidebars_widgets ) {
+function braillewright_features_remove_primary_sidebar( $sidebars_widgets ) {
 
 	if ( is_admin() ) {
 		return $sidebars_widgets;
@@ -46,31 +46,31 @@ function ct_period_pro_remove_primary_sidebar( $sidebars_widgets ) {
 	}
 
 	$post_layout    		= get_theme_mod( 'layout' );
-	$post_layout 				= apply_filters( 'ct_period_pro_layout_filter', $post_layout );
+	$post_layout 				= apply_filters( 'braillewright_features_layout_filter', $post_layout );
 	$page_layout    		= get_theme_mod( 'layout_pages' );
-	$page_layout    		= apply_filters( 'ct_period_pro_layout_filter', $page_layout );
+	$page_layout    		= apply_filters( 'braillewright_features_layout_filter', $page_layout );
 	$blog_layout    		= get_theme_mod( 'layout_blog' );
 	$archives_layout    = get_theme_mod( 'layout_archives' );
 
 	// if it's a non-sidebar layout, remove the primary sidebar
-	if ( in_array( $post_layout, ct_period_pro_layouts( 'no-sidebar' ) ) && is_singular( 'post' ) ) {
+	if ( in_array( $post_layout, braillewright_features_layouts( 'no-sidebar' ) ) && is_singular( 'post' ) ) {
 		$sidebars_widgets['primary'] = false;
 	}
-	if ( in_array( $page_layout, ct_period_pro_layouts( 'no-sidebar' ) ) && is_singular( 'page' ) ) {
+	if ( in_array( $page_layout, braillewright_features_layouts( 'no-sidebar' ) ) && is_singular( 'page' ) ) {
 		$sidebars_widgets['primary'] = false;
 	}
-	if ( in_array( $blog_layout, ct_period_pro_layouts( 'no-sidebar' ) ) && is_home() ) {
+	if ( in_array( $blog_layout, braillewright_features_layouts( 'no-sidebar' ) ) && is_home() ) {
 		$sidebars_widgets['primary'] = false;
 	}
-	if ( in_array( $archives_layout, ct_period_pro_layouts( 'no-sidebar' ) ) && is_archive() ) {
+	if ( in_array( $archives_layout, braillewright_features_layouts( 'no-sidebar' ) ) && is_archive() ) {
 		$sidebars_widgets['primary'] = false;
 	}
 
 	return $sidebars_widgets;
 }
-add_filter( 'sidebars_widgets', 'ct_period_pro_remove_primary_sidebar' );
+add_filter( 'sidebars_widgets', 'braillewright_features_remove_primary_sidebar' );
 
-function ct_period_pro_layouts( $type = '' ) {
+function braillewright_features_layouts( $type = '' ) {
 
 	if ( $type == 'no-sidebar' ) {
 		$layouts = array(

@@ -1,7 +1,7 @@
 <?php
 defined( 'ABSPATH' ) OR exit;
 
-function ct_period_pro_output_header_image() {
+function braillewright_features_output_header_image() {
 
 	$header_image_type = get_theme_mod( 'header_image_type' );
 	$header_image  		 = get_theme_mod( 'header_image_upload' );
@@ -31,7 +31,7 @@ function ct_period_pro_output_header_image() {
 			>';
 		}
 			if ( $link != '' ) {
-				echo '<a href="'. esc_url( $link ) .'">'. esc_html__( "Visit Page", "braillewright-pro" ) .'</a>';
+				echo '<a href="'. esc_url( $link ) .'">'. esc_html__( "Visit Page", "braillewright" ) .'</a>';
 			}
 		echo '</span>';
 	} elseif ( $header_video && $header_image_type == 'video' ) {
@@ -46,9 +46,9 @@ function ct_period_pro_output_header_image() {
 		echo '</span>';
 	}
 }
-add_action( 'body_top', 'ct_period_pro_output_header_image' );
+add_action( 'body_top', 'braillewright_features_output_header_image' );
 
-function ct_period_pro_header_image_css() {
+function braillewright_features_header_image_css() {
 
 	$header_image 		 = get_theme_mod( 'header_image_upload' );
 	$header_video  		 = get_theme_mod( 'header_image_video' );
@@ -78,22 +78,22 @@ function ct_period_pro_header_image_css() {
 		$custom_css = "#header-image { padding-bottom: $height%; }";
 	}
 
-	$custom_css = ct_period_pro_sanitize_css( $custom_css );
+	$custom_css = braillewright_features_sanitize_css( $custom_css );
 
-	wp_add_inline_style( 'ct-period-style', $custom_css );
-	wp_add_inline_style( 'ct-period-style-rtl', $custom_css );
+	wp_add_inline_style( 'braillewright-style', $custom_css );
+	wp_add_inline_style( 'braillewright-style-rtl', $custom_css );
 }
-add_action( 'wp_enqueue_scripts', 'ct_period_pro_header_image_css', 99 );
+add_action( 'wp_enqueue_scripts', 'braillewright_features_header_image_css', 99 );
 
 //----------------------------------------------------------------------------------
 // Transition old yes/no header home link option to new custom URL option
 //----------------------------------------------------------------------------------
-function ct_period_pro_set_header_image_link() {
-	if ( get_option( 'ct_period_pro_header_image_link_check' ) != 'yes' ) {
+function braillewright_features_set_header_image_link() {
+	if ( get_option( 'braillewright_features_header_image_link_check' ) != 'yes' ) {
 		if ( get_theme_mod( 'header_image_link_home' ) == 'yes' ) {
 			set_theme_mod( 'header_image_link', esc_url(site_url()) );
 		}
-		update_option( 'ct_period_pro_header_image_link_check', 'yes' );
+		update_option( 'braillewright_features_header_image_link_check', 'yes' );
 	}
 }
-add_action( 'admin_init', 'ct_period_pro_set_header_image_link' );
+add_action( 'admin_init', 'braillewright_features_set_header_image_link' );

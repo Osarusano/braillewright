@@ -4,86 +4,86 @@ defined( 'ABSPATH' ) OR exit;
 //----------------------------------------------------------------------------------
 // Add the Featured Video meta box 
 //----------------------------------------------------------------------------------
-function ct_period_pro_add_video_meta_box() {
+function braillewright_features_add_video_meta_box() {
 
 	$screens = array( 'post', 'page' );
 
 	foreach ( $screens as $screen ) {
 
 		add_meta_box(
-			'ct_period_pro_video',
-			esc_html__( 'Featured Video', 'braillewright-pro' ),
-			'ct_period_pro_video_callback',
+			'braillewright_features_video',
+			esc_html__( 'Featured Video', 'braillewright' ),
+			'braillewright_features_video_callback',
 			$screen,
 			'normal',
 			'high'
 		);
 	}
 }
-add_action( 'add_meta_boxes', 'ct_period_pro_add_video_meta_box' );
+add_action( 'add_meta_boxes', 'braillewright_features_add_video_meta_box' );
 
 //----------------------------------------------------------------------------------
 // Output the form in the post editor
 //----------------------------------------------------------------------------------
-function ct_period_pro_video_callback( $post ) {
+function braillewright_features_video_callback( $post ) {
 
-	wp_nonce_field( 'ct_period_pro_video', 'ct_period_pro_video_nonce' );
+	wp_nonce_field( 'braillewright_features_video', 'braillewright_features_video_nonce' );
 
-	$video_url        = get_post_meta( $post->ID, 'ct_period_pro_video_key', true );
-	$youtube_logo     = get_post_meta( $post->ID, 'ct_period_pro_video_youtube_logo', true );
-	$youtube_captions = get_post_meta( $post->ID, 'ct_period_pro_video_youtube_captions', true );
-	$youtube_autoplay = get_post_meta( $post->ID, 'ct_period_pro_video_youtube_autoplay', true );
-	$youtube_loop     = get_post_meta( $post->ID, 'ct_period_pro_video_youtube_loop', true );
-	$youtube_mute     = get_post_meta( $post->ID, 'ct_period_pro_video_youtube_mute', true );
+	$video_url        = get_post_meta( $post->ID, 'braillewright_features_video_key', true );
+	$youtube_logo     = get_post_meta( $post->ID, 'braillewright_features_video_youtube_logo', true );
+	$youtube_captions = get_post_meta( $post->ID, 'braillewright_features_video_youtube_captions', true );
+	$youtube_autoplay = get_post_meta( $post->ID, 'braillewright_features_video_youtube_autoplay', true );
+	$youtube_loop     = get_post_meta( $post->ID, 'braillewright_features_video_youtube_loop', true );
+	$youtube_mute     = get_post_meta( $post->ID, 'braillewright_features_video_youtube_mute', true );
 
 	// video preview
-	echo '<div class="ct_period_pro_video_preview_container" id="ct_period_pro_video_preview_container">';
-		echo '<label for="ct_period_pro_video_url">';
-			esc_html_e( 'Video Preview', 'braillewright-pro' );
+	echo '<div class="braillewright_features_video_preview_container" id="braillewright_features_video_preview_container">';
+		echo '<label for="braillewright_features_video_url">';
+			esc_html_e( 'Video Preview', 'braillewright' );
 		echo '</label> ';
 		if ( $video_url ) {
 			if ( strpos( $video_url, 'youtube-nocookie.com' ) !== false ) {
 				echo '<iframe src="'. esc_url( $video_url ) .'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
 			} else {
-				echo ct_period_pro_output_video( $video_url ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- WP oembed/shortcode HTML (iframe/video) from an esc_url_raw'd URL; admin-only meta box.
+				echo braillewright_features_output_video( $video_url ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- WP oembed/shortcode HTML (iframe/video) from an esc_url_raw'd URL; admin-only meta box.
 			}
 		}
-		echo '<span class="loading">' . ct_period_pro_loading_indicator_svg() . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- hardcoded literal SVG; no user data.
+		echo '<span class="loading">' . braillewright_features_loading_indicator_svg() . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- hardcoded literal SVG; no user data.
 	echo '</div>';
 
 	// video URL input
-	echo '<div class="ct_period_pro_video_input_container">';
-		echo '<label for="ct_period_pro_video_url">';
-			esc_html_e( 'Add video URL:', 'braillewright-pro' );
+	echo '<div class="braillewright_features_video_input_container">';
+		echo '<label for="braillewright_features_video_url">';
+			esc_html_e( 'Add video URL:', 'braillewright' );
 		echo '</label> ';
 		echo '<div>';
-			echo '<input type="text" class="regular-text" id="ct_period_pro_video_url" name="ct_period_pro_video_url" value="' . esc_url( $video_url ) . '" />';
-			echo ct_period_pro_green_checkmark_svg(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- hardcoded literal SVG; no user data.
+			echo '<input type="text" class="regular-text" id="braillewright_features_video_url" name="braillewright_features_video_url" value="' . esc_url( $video_url ) . '" />';
+			echo braillewright_features_green_checkmark_svg(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- hardcoded literal SVG; no user data.
 		echo '</div>';
 	echo '</div>';
 
 	// Display option
 	if ( $post->post_type == 'post' ) :
 
-		$display_blog = get_post_meta( $post->ID, 'ct_period_pro_video_display_key', true );
+		$display_blog = get_post_meta( $post->ID, 'braillewright_features_video_display_key', true );
 
 		if ( empty( $display_blog ) ) {
 			$display_blog = "post";
 		}
 
-		echo '<div class="ct_period_pro_video_display_container">';
-			echo '<p>' . esc_html__( 'Choose where to display the video:', 'braillewright-pro' ) . '</p>';
-			echo '<label for="ct_period_pro_video_display_post">';
-				echo '<input type="radio" name="ct_period_pro_video_display" id="ct_period_pro_video_display_post" value="post" ' . checked( $display_blog, "post", false ) . '>';
-				esc_html_e( 'Post', 'braillewright-pro' );
+		echo '<div class="braillewright_features_video_display_container">';
+			echo '<p>' . esc_html__( 'Choose where to display the video:', 'braillewright' ) . '</p>';
+			echo '<label for="braillewright_features_video_display_post">';
+				echo '<input type="radio" name="braillewright_features_video_display" id="braillewright_features_video_display_post" value="post" ' . checked( $display_blog, "post", false ) . '>';
+				esc_html_e( 'Post', 'braillewright' );
 			echo '</label> ';
-			echo '<label for="ct_period_pro_video_display_blog">';
-				echo '<input type="radio" name="ct_period_pro_video_display" id="ct_period_pro_video_display_blog" value="blog" ' . checked( $display_blog, "blog", false ) . '>';
-				esc_html_e( 'Blog', 'braillewright-pro' );
+			echo '<label for="braillewright_features_video_display_blog">';
+				echo '<input type="radio" name="braillewright_features_video_display" id="braillewright_features_video_display_blog" value="blog" ' . checked( $display_blog, "blog", false ) . '>';
+				esc_html_e( 'Blog', 'braillewright' );
 			echo '</label> ';
-			echo '<label for="ct_period_pro_video_display_both">';
-				echo '<input type="radio" name="ct_period_pro_video_display" id="ct_period_pro_video_display_both" value="both" ' . checked( $display_blog, "both", false ) . '>';
-				esc_html_e( 'Post & Blog', 'braillewright-pro' );
+			echo '<label for="braillewright_features_video_display_both">';
+				echo '<input type="radio" name="braillewright_features_video_display" id="braillewright_features_video_display_both" value="both" ' . checked( $display_blog, "both", false ) . '>';
+				esc_html_e( 'Post & Blog', 'braillewright' );
 			echo '</label> ';
 		echo '</div>';
 	endif;
@@ -96,27 +96,27 @@ function ct_period_pro_video_callback( $post ) {
 		$class = '';
 	}
 
-	echo '<div class="ct_period_pro_video_youtube_controls_container ' . esc_attr( $class ) . '">';
-		echo '<p>' . esc_html__( 'Youtube controls', 'braillewright-pro' ) . '</p>';
-		echo '<label for="ct_period_pro_video_youtube_logo">';
-			echo '<input type="checkbox" name="ct_period_pro_video_youtube_logo" id="ct_period_pro_video_youtube_logo" value="1" ' . checked( '1', $youtube_logo, false ) . '>';
-			esc_html_e( 'Hide Youtube logo in control bar', 'braillewright-pro' );
+	echo '<div class="braillewright_features_video_youtube_controls_container ' . esc_attr( $class ) . '">';
+		echo '<p>' . esc_html__( 'Youtube controls', 'braillewright' ) . '</p>';
+		echo '<label for="braillewright_features_video_youtube_logo">';
+			echo '<input type="checkbox" name="braillewright_features_video_youtube_logo" id="braillewright_features_video_youtube_logo" value="1" ' . checked( '1', $youtube_logo, false ) . '>';
+			esc_html_e( 'Hide Youtube logo in control bar', 'braillewright' );
 		echo '</label> ';
-		echo '<label for="ct_period_pro_video_youtube_captions">';
-			echo '<input type="checkbox" name="ct_period_pro_video_youtube_captions" id="ct_period_pro_video_youtube_captions" value="1" ' . checked( '1', $youtube_captions, false ) . '>';
-			esc_html_e( 'Show Captions by Default', 'braillewright-pro' );
+		echo '<label for="braillewright_features_video_youtube_captions">';
+			echo '<input type="checkbox" name="braillewright_features_video_youtube_captions" id="braillewright_features_video_youtube_captions" value="1" ' . checked( '1', $youtube_captions, false ) . '>';
+			esc_html_e( 'Show Captions by Default', 'braillewright' );
 		echo '</label> ';
-		echo '<label for="ct_period_pro_video_youtube_autoplay">';
-			echo '<input type="checkbox" name="ct_period_pro_video_youtube_autoplay" id="ct_period_pro_video_youtube_autoplay" value="1" ' . checked( '1', $youtube_autoplay, false ) . '>';
-			esc_html_e( 'Autoplay video', 'braillewright-pro' );
+		echo '<label for="braillewright_features_video_youtube_autoplay">';
+			echo '<input type="checkbox" name="braillewright_features_video_youtube_autoplay" id="braillewright_features_video_youtube_autoplay" value="1" ' . checked( '1', $youtube_autoplay, false ) . '>';
+			esc_html_e( 'Autoplay video', 'braillewright' );
 		echo '</label> ';
-		echo '<label for="ct_period_pro_video_youtube_loop">';
-			echo '<input type="checkbox" name="ct_period_pro_video_youtube_loop" id="ct_period_pro_video_youtube_loop" value="1" ' . checked( '1', $youtube_loop, false ) . '>';
-			esc_html_e( 'Loop video', 'braillewright-pro' );
+		echo '<label for="braillewright_features_video_youtube_loop">';
+			echo '<input type="checkbox" name="braillewright_features_video_youtube_loop" id="braillewright_features_video_youtube_loop" value="1" ' . checked( '1', $youtube_loop, false ) . '>';
+			esc_html_e( 'Loop video', 'braillewright' );
 		echo '</label> ';
-		echo '<label for="ct_period_pro_video_youtube_mute">';
-			echo '<input type="checkbox" name="ct_period_pro_video_youtube_mute" id="ct_period_pro_video_youtube_mute" value="1" ' . checked( '1', $youtube_mute, false ) . '>';
-			esc_html_e( 'Auto-mute video', 'braillewright-pro' );
+		echo '<label for="braillewright_features_video_youtube_mute">';
+			echo '<input type="checkbox" name="braillewright_features_video_youtube_mute" id="braillewright_features_video_youtube_mute" value="1" ' . checked( '1', $youtube_mute, false ) . '>';
+			esc_html_e( 'Auto-mute video', 'braillewright' );
 		echo '</label> ';
 	echo '</div>';
 }
@@ -124,7 +124,7 @@ function ct_period_pro_video_callback( $post ) {
 //----------------------------------------------------------------------------------
 // Ajax callback
 //----------------------------------------------------------------------------------
-function ct_period_pro_add_oembed_callback() {
+function braillewright_features_add_oembed_callback() {
 
 	global $wpdb, $post;  // $wpdb - access to the database
 
@@ -134,7 +134,7 @@ function ct_period_pro_add_oembed_callback() {
 	}
 
 	// Verify the nonce localized to the admin JS (check_ajax_referer dies on failure).
-	check_ajax_referer( 'ct_period_pro_add_oembed', 'security' );
+	check_ajax_referer( 'braillewright_features_add_oembed', 'security' );
 
 	// get the video url passed from the JS (validate user input right away)
 	$video_url = isset( $_POST['videoURL'] ) ? esc_url_raw( (string) wp_unslash( $_POST['videoURL'] ) ) : '';
@@ -142,7 +142,7 @@ function ct_period_pro_add_oembed_callback() {
 	if ( strpos( $video_url, 'youtube-nocookie.com' ) !== false ) {
 		$video = '<iframe src="'. esc_url( $video_url ) .'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
 	} else {
-		$video = ct_period_pro_output_video( $video_url );
+		$video = braillewright_features_output_video( $video_url );
 	}
 
 	$response = $video ? $video : '';
@@ -151,12 +151,12 @@ function ct_period_pro_add_oembed_callback() {
 
 	die(); // this is required to return a proper result
 }
-add_action( 'wp_ajax_add_oembed', 'ct_period_pro_add_oembed_callback' );
+add_action( 'wp_ajax_add_oembed', 'braillewright_features_add_oembed_callback' );
 
 //----------------------------------------------------------------------------------
 // Output the video in the back-end
 //----------------------------------------------------------------------------------
-function ct_period_pro_output_video( $video_url ) {
+function braillewright_features_output_video( $video_url ) {
 	
 	if ( $video_url ) {
 		$filetype = wp_check_filetype( $video_url );
@@ -171,14 +171,14 @@ function ct_period_pro_output_video( $video_url ) {
 	}
 }
 
-function ct_period_pro_video_save_data( $post_id ) {
+function braillewright_features_video_save_data( $post_id ) {
 
 	global $post;
 
-	if ( ! isset( $_POST['ct_period_pro_video_nonce'] ) ) {
+	if ( ! isset( $_POST['braillewright_features_video_nonce'] ) ) {
 		return;
 	}
-	if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ct_period_pro_video_nonce'] ) ), 'ct_period_pro_video' ) ) {
+	if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['braillewright_features_video_nonce'] ) ), 'braillewright_features_video' ) ) {
 		return;
 	}
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
@@ -190,32 +190,32 @@ function ct_period_pro_video_save_data( $post_id ) {
 
 	/* safe to save the data now. */
 
-	if ( isset( $_POST['ct_period_pro_video_url'] ) ) {
+	if ( isset( $_POST['braillewright_features_video_url'] ) ) {
 
-		$video_url = esc_url_raw( wp_unslash( $_POST['ct_period_pro_video_url'] ) );
+		$video_url = esc_url_raw( wp_unslash( $_POST['braillewright_features_video_url'] ) );
 
-		update_post_meta( $post_id, 'ct_period_pro_video_key', $video_url );
+		update_post_meta( $post_id, 'braillewright_features_video_key', $video_url );
 
 		// save display option for posts only
 		if ( $post->post_type == 'post' ) {
 
-			if ( isset( $_POST['ct_period_pro_video_display'] ) ) {
+			if ( isset( $_POST['braillewright_features_video_display'] ) ) {
 
-				$display_blog = sanitize_text_field( wp_unslash( $_POST['ct_period_pro_video_display'] ) );
+				$display_blog = sanitize_text_field( wp_unslash( $_POST['braillewright_features_video_display'] ) );
 
 				if ( $display_blog == 'post' || $display_blog == 'blog' || $display_blog == 'both' ) {
-					update_post_meta( $post_id, 'ct_period_pro_video_display_key', $display_blog );
+					update_post_meta( $post_id, 'braillewright_features_video_display_key', $display_blog );
 				}
 			}
 		}
 	}
 
 	$youtube_IDs = array(
-		'ct_period_pro_video_youtube_logo',
-		'ct_period_pro_video_youtube_captions',
-		'ct_period_pro_video_youtube_autoplay',
-		'ct_period_pro_video_youtube_loop',
-		'ct_period_pro_video_youtube_mute'
+		'braillewright_features_video_youtube_logo',
+		'braillewright_features_video_youtube_captions',
+		'braillewright_features_video_youtube_autoplay',
+		'braillewright_features_video_youtube_loop',
+		'braillewright_features_video_youtube_mute'
 	);
 
 	foreach ( $youtube_IDs as $youtube_option ) {
@@ -230,10 +230,10 @@ function ct_period_pro_video_save_data( $post_id ) {
 		}
 	}
 }
-add_action( 'pre_post_update', 'ct_period_pro_video_save_data' );
+add_action( 'pre_post_update', 'braillewright_features_video_save_data' );
 
 // green checkmark icon used in Post Video input
-function ct_period_pro_green_checkmark_svg() {
+function braillewright_features_green_checkmark_svg() {
 
 	$svg = '<svg width="12px" height="13px" viewBox="0 0 12 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 				<desc>green checkmark icon</desc>
@@ -246,7 +246,7 @@ function ct_period_pro_green_checkmark_svg() {
 }
 
 // loading indicator used in Post Video input
-function ct_period_pro_loading_indicator_svg() {
+function braillewright_features_loading_indicator_svg() {
 
 	$svg = '<svg width="47px" height="50px" viewBox="0 0 47 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 			    <desc>loading icon</desc>
@@ -258,14 +258,14 @@ function ct_period_pro_loading_indicator_svg() {
 	return $svg;
 }
 
-function ct_period_pro_output_featured_video( $featured_image ) {
+function braillewright_features_output_featured_video( $featured_image ) {
 
 	global $post;
-	$featured_video = get_post_meta( $post->ID, 'ct_period_pro_video_key', true );
+	$featured_video = get_post_meta( $post->ID, 'braillewright_features_video_key', true );
 
 	if ( $featured_video ) {
 
-		$display_blog = get_post_meta( $post->ID, 'ct_period_pro_video_display_key', true );
+		$display_blog = get_post_meta( $post->ID, 'braillewright_features_video_display_key', true );
 
 		if (
 			( is_singular() && ( $display_blog == 'post' || $display_blog == 'both' ) )
@@ -275,13 +275,13 @@ function ct_period_pro_output_featured_video( $featured_image ) {
 			if ( strpos( $featured_video, 'youtube-nocookie.com' ) !== false ) {
 				$featured_image = '<div class="featured-video"><iframe src="'. esc_url( $featured_video ) .'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>';
 			} else {
-				$featured_image = '<div class="featured-video">' . ct_period_pro_output_video( $featured_video ) . '</div>';
+				$featured_image = '<div class="featured-video">' . braillewright_features_output_video( $featured_video ) . '</div>';
 			}
 			// If AMP plugin is active and viewing an AMP page
 			if ( function_exists('amp_init') ) {
 				if ( is_amp_endpoint() ) {
 					// Add filter to remove the Featured Image
-					add_filter( 'amp_post_template_data', 'ct_period_pro_amp_remove_featured_image' );
+					add_filter( 'amp_post_template_data', 'braillewright_features_amp_remove_featured_image' );
 				}
 			}
 		}
@@ -289,33 +289,33 @@ function ct_period_pro_output_featured_video( $featured_image ) {
 
 	return $featured_image;
 }
-add_filter( 'ct_period_featured_image', 'ct_period_pro_output_featured_video' );
+add_filter( 'braillewright_featured_image', 'braillewright_features_output_featured_video' );
 
-function ct_period_pro_featured_video_amp( $content ) {
+function braillewright_features_featured_video_amp( $content ) {
 	// If AMP plugin is active and viewing an AMP page
 	if ( function_exists('amp_init') ) {
 		if ( is_amp_endpoint() ) {
 			// Add the Featured Video to the top of the content
 			global $post;
-			$featured_video = ct_period_pro_output_featured_video('');
+			$featured_video = braillewright_features_output_featured_video('');
 			$content = $featured_video . $content;	
 		}
 	}
 	return $content;
 }
-add_filter( 'the_content', 'ct_period_pro_featured_video_amp', 1 );
+add_filter( 'the_content', 'braillewright_features_featured_video_amp', 1 );
 
-function ct_period_pro_amp_remove_featured_image( $data ) {
+function braillewright_features_amp_remove_featured_image( $data ) {
     $data['featured_image'] = false;
     return $data;
 }
 
-function ct_period_pro_add_youtube_parameters( $html, $url, $args ) {
+function braillewright_features_add_youtube_parameters( $html, $url, $args ) {
 
 	global $post;
 
 	if ( ! empty( $post ) ) {
-		$featured_video = get_post_meta( $post->ID, 'ct_period_pro_video_key', true );
+		$featured_video = get_post_meta( $post->ID, 'braillewright_features_video_key', true );
 	}
 
 	if ( ! empty( $featured_video ) ) {
@@ -326,11 +326,11 @@ function ct_period_pro_add_youtube_parameters( $html, $url, $args ) {
 			// only add parameters if featured vid is a youtube vid
 			if ( strpos( $featured_video, 'youtube.com' ) || strpos( $featured_video, 'youtu.be' ) ) {
 
-				$youtube_logo    = get_post_meta( $post->ID, 'ct_period_pro_video_youtube_logo', true );
-				$youtube_captions = get_post_meta( $post->ID, 'ct_period_pro_video_youtube_captions', true );
-				$youtube_autoplay = get_post_meta( $post->ID, 'ct_period_pro_video_youtube_autoplay', true );
-				$youtube_loop     = get_post_meta( $post->ID, 'ct_period_pro_video_youtube_loop', true );
-				$youtube_mute     = get_post_meta( $post->ID, 'ct_period_pro_video_youtube_mute', true );
+				$youtube_logo    = get_post_meta( $post->ID, 'braillewright_features_video_youtube_logo', true );
+				$youtube_captions = get_post_meta( $post->ID, 'braillewright_features_video_youtube_captions', true );
+				$youtube_autoplay = get_post_meta( $post->ID, 'braillewright_features_video_youtube_autoplay', true );
+				$youtube_loop     = get_post_meta( $post->ID, 'braillewright_features_video_youtube_loop', true );
+				$youtube_mute     = get_post_meta( $post->ID, 'braillewright_features_video_youtube_mute', true );
 
 				$youtube_parameters = array(
 					'modestbranding' => $youtube_logo,
@@ -355,6 +355,6 @@ function ct_period_pro_add_youtube_parameters( $html, $url, $args ) {
 
 	return $html;
 }
-add_filter( 'oembed_result', 'ct_period_pro_add_youtube_parameters', 10, 3 );
+add_filter( 'oembed_result', 'braillewright_features_add_youtube_parameters', 10, 3 );
 
 wp_oembed_add_provider( '/https?:\/\/(.+)?(wistia.com|wi.st)\/(medias|embed)\/.*/', 'http://fast.wistia.com/oembed', true);

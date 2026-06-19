@@ -56,32 +56,32 @@
 }
 /* 1100px */
 @media all and (min-width: 68.75em) {
-  #period-dashboard-wrap .content.content-resources {
+  #braillewright-dashboard-wrap .content.content-resources {
     clear: none;
     margin-right: 0;
   }
 }
 /* Styles for Post Video meta box */
-#ct_period_pro_video .inside {
+#braillewright_features_video .inside {
   padding: 0;
   margin: 0;
 }
-#ct_period_pro_video .description {
+#braillewright_features_video .description {
   padding: 6px 12px 12px 24px;
 }
 
-.ct_period_pro_video_input_container {
+.braillewright_features_video_input_container {
   padding: 24px 24px 12px;
 }
-.ct_period_pro_video_input_container label {
+.braillewright_features_video_input_container label {
   margin-right: 46px;
   font-weight: 700;
 }
-.ct_period_pro_video_input_container div {
+.braillewright_features_video_input_container div {
   position: relative;
   display: inline-block;
 }
-.ct_period_pro_video_input_container div svg {
+.braillewright_features_video_input_container div svg {
   position: absolute;
   top: 3px;
   padding: 4px;
@@ -91,11 +91,11 @@
   -webkit-transition: opacity 0.2s ease;
           transition: opacity 0.2s ease;
 }
-.ct_period_pro_video_input_container.has-vid svg {
+.braillewright_features_video_input_container.has-vid svg {
   opacity: 1;
 }
 
-.ct_period_pro_video_preview_container {
+.braillewright_features_video_preview_container {
   position: relative;
   padding: 24px;
   text-align: center;
@@ -103,7 +103,7 @@
   border: dashed 4px #E1ECED;
   background: #F2F9FA;
 }
-.ct_period_pro_video_preview_container label {
+.braillewright_features_video_preview_container label {
   position: absolute;
   top: 45%;
   left: 0;
@@ -114,13 +114,13 @@
   text-transform: uppercase;
   letter-spacing: 0.14em;
 }
-.ct_period_pro_video_preview_container.has-vid {
+.braillewright_features_video_preview_container.has-vid {
   min-height: 0;
   border: none;
   border-bottom: solid 1px #e5e5e5;
   background: none;
 }
-.ct_period_pro_video_preview_container .loading {
+.braillewright_features_video_preview_container .loading {
   position: absolute;
   top: 0;
   left: 0;
@@ -133,18 +133,18 @@
   -webkit-transition: all 0.3s ease;
           transition: all 0.3s ease;
 }
-.ct_period_pro_video_preview_container .loading svg {
+.braillewright_features_video_preview_container .loading svg {
   position: absolute;
   right: 47%;
   top: 38%;
   -webkit-animation: spin 2s linear infinite;
           animation: spin 2s linear infinite;
 }
-.ct_period_pro_video_preview_container.ajax-loading .loading {
+.braillewright_features_video_preview_container.ajax-loading .loading {
   visibility: visible;
   opacity: 1;
 }
-.ct_period_pro_video_preview_container .fluid-width-video-wrapper + .fluid-width-video-wrapper {
+.braillewright_features_video_preview_container .fluid-width-video-wrapper + .fluid-width-video-wrapper {
   display: none;
 }
 @-webkit-keyframes spin {
@@ -159,61 +159,61 @@
             transform: rotate(360deg);
   }
 }
-.ct_period_pro_video_display_container,
-.ct_period_pro_video_youtube_controls_container {
+.braillewright_features_video_display_container,
+.braillewright_features_video_youtube_controls_container {
   margin: 0 24px 24px;
 }
-.ct_period_pro_video_display_container p,
-.ct_period_pro_video_youtube_controls_container p {
+.braillewright_features_video_display_container p,
+.braillewright_features_video_youtube_controls_container p {
   font-weight: 700;
 }
-.ct_period_pro_video_display_container label,
-.ct_period_pro_video_youtube_controls_container label {
+.braillewright_features_video_display_container label,
+.braillewright_features_video_youtube_controls_container label {
   display: block;
   margin-bottom: 6px;
 }
-.ct_period_pro_video_display_container input,
-.ct_period_pro_video_youtube_controls_container input {
+.braillewright_features_video_display_container input,
+.braillewright_features_video_youtube_controls_container input {
   margin-right: 12px;
 }
 
-.ct_period_pro_video_youtube_controls_container.hide {
+.braillewright_features_video_youtube_controls_container.hide {
   display: none;
 }
 
 /***** Featured Slider *****/
-.ct_period_pro_slider_input_container div,
-.ct_period_pro_slider_display_container div {
+.braillewright_features_slider_input_container div,
+.braillewright_features_slider_display_container div {
   position: relative;
   display: inline-block;
 }
 
-.ct_period_pro_slider_input_container {
+.braillewright_features_slider_input_container {
   padding: 12px;
 }
-.ct_period_pro_slider_input_container p {
+.braillewright_features_slider_input_container p {
   display: inline-block;
   margin: 0 0 0 12px;
 }
-.ct_period_pro_slider_input_container label {
+.braillewright_features_slider_input_container label {
   margin-right: 12px;
   font-weight: 700;
 }
 
-.ct_period_pro_slider_display_container {
+.braillewright_features_slider_display_container {
   padding: 0 12px 24px;
 }
-.ct_period_pro_slider_display_container p {
+.braillewright_features_slider_display_container p {
   font-weight: 700;
 }
-.ct_period_pro_slider_display_container label {
+.braillewright_features_slider_display_container label {
   display: block;
   margin-bottom: 6px;
 }
-.ct_period_pro_slider_display_container input {
+.braillewright_features_slider_display_container input {
   margin-right: 12px;
 }
-.ct_period_pro_slider_display_container input:before {
+.braillewright_features_slider_display_container input:before {
   text-indent: -999px !important;
 }
 
@@ -224,6 +224,6 @@
   font-weight: 700;
 }
 
-.ct_period_pro_slider_no_slider_container {
+.braillewright_features_slider_no_slider_container {
   padding: 0 12px 12px;
 }

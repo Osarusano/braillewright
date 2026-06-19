@@ -1,32 +1,32 @@
 <?php
 defined( 'ABSPATH' ) OR exit;
 
-function ct_period_pro_fi_size_meta_box() {
+function braillewright_features_fi_size_meta_box() {
 
 	$screens = array( 'post', 'page' );
 
 	foreach ( $screens as $screen ) {
 
 		add_meta_box(
-			'ct_period_pro_fi_size',
-			esc_html__( 'Featured Image Size', 'braillewright-pro' ),
-			'ct_period_pro_fi_size_callback',
+			'braillewright_features_fi_size',
+			esc_html__( 'Featured Image Size', 'braillewright' ),
+			'braillewright_features_fi_size_callback',
 			$screen,
 			'side'
 		);
 	}
 }
-add_action( 'add_meta_boxes', 'ct_period_pro_fi_size_meta_box' );
+add_action( 'add_meta_boxes', 'braillewright_features_fi_size_meta_box' );
 
-function ct_period_pro_fi_size_callback( $post ) {
+function braillewright_features_fi_size_callback( $post ) {
 
-	wp_nonce_field( 'ct_period_pro_fi_size', 'ct_period_pro_fi_size_nonce' );
+	wp_nonce_field( 'braillewright_features_fi_size', 'braillewright_features_fi_size_nonce' );
 
-	$ratio = get_post_meta( $post->ID, 'ct_period_pro_fi_size_key', true );
+	$ratio = get_post_meta( $post->ID, 'braillewright_features_fi_size_key', true );
 	?>
 	<p>
-		<select name="period-pro-fi-size" id="period-pro-fi-size" style="box-sizing: border-box; width: 100%;">
-			<option value="default"><?php esc_html_e( 'Use size set in Customizer', 'braillewright-pro' ); ?></option>
+		<select name="braillewright-pro-fi-size" id="braillewright-pro-fi-size" style="box-sizing: border-box; width: 100%;">
+			<option value="default"><?php esc_html_e( 'Use size set in Customizer', 'braillewright' ); ?></option>
 			<option value="2-1" <?php if ( $ratio == '2-1' ) {
 				echo 'selected';
 			} ?>>2:1
@@ -73,17 +73,17 @@ function ct_period_pro_fi_size_callback( $post ) {
 			</option>
 			<option value="natural" <?php if ( $ratio == 'natural' ) {
 				echo 'selected';
-			} ?>><?php esc_html_e( 'Natural Dimensions', 'braillewright-pro' ); ?></option>
+			} ?>><?php esc_html_e( 'Natural Dimensions', 'braillewright' ); ?></option>
 		</select>
 	</p> <?php
 }
 
-function ct_period_pro_fi_size_save_data( $post_id ) {
+function braillewright_features_fi_size_save_data( $post_id ) {
 
-	if ( ! isset( $_POST['ct_period_pro_fi_size_nonce'] ) ) {
+	if ( ! isset( $_POST['braillewright_features_fi_size_nonce'] ) ) {
 		return;
 	}
-	if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ct_period_pro_fi_size_nonce'] ) ), 'ct_period_pro_fi_size' ) ) {
+	if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['braillewright_features_fi_size_nonce'] ) ), 'braillewright_features_fi_size' ) ) {
 		return;
 	}
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
@@ -95,21 +95,21 @@ function ct_period_pro_fi_size_save_data( $post_id ) {
 
 	/* it's safe to save the data now. */
 
-	if ( isset( $_POST['period-pro-fi-size'] ) ) {
+	if ( isset( $_POST['braillewright-pro-fi-size'] ) ) {
 
-		$ratio = sanitize_text_field( wp_unslash( $_POST['period-pro-fi-size'] ) );
+		$ratio = sanitize_text_field( wp_unslash( $_POST['braillewright-pro-fi-size'] ) );
 
-		if ( in_array( $ratio, ct_period_pro_fi_size_array() ) ) {
-			update_post_meta( $post_id, 'ct_period_pro_fi_size_key', $ratio );
+		if ( in_array( $ratio, braillewright_features_fi_size_array() ) ) {
+			update_post_meta( $post_id, 'braillewright_features_fi_size_key', $ratio );
 		}
 	}
 }
-add_action( 'pre_post_update', 'ct_period_pro_fi_size_save_data' );
+add_action( 'pre_post_update', 'braillewright_features_fi_size_save_data' );
 
-function ct_period_pro_featured_image_post_class( $classes ) {
+function braillewright_features_featured_image_post_class( $classes ) {
 
 	$size = get_theme_mod( 'featured_image_size' );
-	$size = apply_filters( 'ct_period_pro_fi_size_filter', $size );
+	$size = apply_filters( 'braillewright_features_fi_size_filter', $size );
 
 	if ( ! empty( $size ) ) {
 		$classes[] = 'ratio-' . esc_attr( $size );
@@ -117,13 +117,13 @@ function ct_period_pro_featured_image_post_class( $classes ) {
 
 	return $classes;
 }
-add_filter( 'post_class', 'ct_period_pro_featured_image_post_class' );
+add_filter( 'post_class', 'braillewright_features_featured_image_post_class' );
 
-function ct_period_pro_filter_fi_size( $size ) {
+function braillewright_features_filter_fi_size( $size ) {
 
 	global $post;
 
-	$page_size = get_post_meta( $post->ID, 'ct_period_pro_fi_size_key', true );
+	$page_size = get_post_meta( $post->ID, 'braillewright_features_fi_size_key', true );
 
 	if ( ! empty( $page_size ) && $page_size != 'default' ) {
 		$size = $page_size;
@@ -131,9 +131,9 @@ function ct_period_pro_filter_fi_size( $size ) {
 
 	return $size;
 }
-add_filter( 'ct_period_pro_fi_size_filter', 'ct_period_pro_filter_fi_size' );
+add_filter( 'braillewright_features_fi_size_filter', 'braillewright_features_filter_fi_size' );
 
-function ct_period_pro_fi_size_array() {
+function braillewright_features_fi_size_array() {
 	$sizes = array(
 		'default',
 		'2-1',

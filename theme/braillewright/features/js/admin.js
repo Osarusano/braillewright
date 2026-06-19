@@ -1,8 +1,8 @@
 jQuery(document).ready(function($){
 
-    var videoPreview = $('#ct_period_pro_video_preview_container');
-    var videoPreviewAndInput = videoPreview.add( $('.ct_period_pro_video_input_container') );
-    var youtubeControls = $('.ct_period_pro_video_youtube_controls_container');
+    var videoPreview = $('#braillewright_features_video_preview_container');
+    var videoPreviewAndInput = videoPreview.add( $('.braillewright_features_video_input_container') );
+    var youtubeControls = $('.braillewright_features_video_youtube_controls_container');
 
     // add fitvid to Post Video preview
     if( typeof $.fn.fitVids === 'function' ) {
@@ -17,7 +17,7 @@ jQuery(document).ready(function($){
     }
 
     // watch for a video selection
-    $('#ct_period_pro_video_url').on( 'input propertychange', oEmbedAjax );
+    $('#braillewright_features_video_url').on( 'input propertychange', oEmbedAjax );
 
     // ajax to load in video
     function oEmbedAjax() {
@@ -41,7 +41,7 @@ jQuery(document).ready(function($){
         var data = {
             action: 'add_oembed',
             videoURL: videoURL,
-            security: ct_period_pro_admin.nonce
+            security: braillewright_features_admin.nonce
         };
 
         // post data received from PHP responde

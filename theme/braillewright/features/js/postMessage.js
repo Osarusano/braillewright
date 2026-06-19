@@ -156,7 +156,7 @@
         value.bind( function( to ) {
             // no need to handle removing textures, handled by 'show' function
             siteHeader.css({
-                'background-image': 'url("' + ct_period_pro_objectL10n.PERIOD_PRO_URL + 'assets/images/textures/' + to + '")',
+                'background-image': 'url("' + braillewright_features_objectL10n.BRAILLEWRIGHT_FEATURES_URL + 'assets/images/textures/' + to + '")',
                 'background-size': '',
                 'background-position': ''
             });
@@ -166,7 +166,7 @@
         value.bind( function( to ) {
             // no need to handle removing textures, handled by 'show' function
             body.css({
-                'background-image': 'url("' + ct_period_pro_objectL10n.PERIOD_PRO_URL + 'assets/images/textures/' + to + '")',
+                'background-image': 'url("' + braillewright_features_objectL10n.BRAILLEWRIGHT_FEATURES_URL + 'assets/images/textures/' + to + '")',
                 'background-size': '',
                 'background-position': ''
             });

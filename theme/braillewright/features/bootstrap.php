@@ -2,7 +2,7 @@
 /*
 Braillewright built-in feature modules — layouts, colors, fonts, header image,
 display controls, featured sliders/videos, widget areas, and more. Formerly the
-companion Braillewright Pro plugin, now merged into the Braillewright theme.
+companion Braillewright plugin, now merged into the Braillewright theme.
 
 Period Pro WordPress Plugin, Copyright 2025 Compete Themes
 Forked from Period Pro 1.16; modifications Copyright 2026 Aaron Di Blasi, GNU GPL v2 or later.
@@ -25,42 +25,42 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 defined( 'ABSPATH' ) OR exit;
 
 // Asset locations for the merged-in feature modules (now a theme subdirectory).
-if ( ! defined( 'PERIOD_PRO_PATH' ) ) {
-	define( 'PERIOD_PRO_PATH', trailingslashit( get_template_directory() ) . 'features/' );
+if ( ! defined( 'BRAILLEWRIGHT_FEATURES_PATH' ) ) {
+	define( 'BRAILLEWRIGHT_FEATURES_PATH', trailingslashit( get_template_directory() ) . 'features/' );
 }
-if ( ! defined( 'PERIOD_PRO_URL' ) ) {
-	define( 'PERIOD_PRO_URL', trailingslashit( get_template_directory_uri() ) . 'features/' );
+if ( ! defined( 'BRAILLEWRIGHT_FEATURES_URL' ) ) {
+	define( 'BRAILLEWRIGHT_FEATURES_URL', trailingslashit( get_template_directory_uri() ) . 'features/' );
 }
 
-require_once( PERIOD_PRO_PATH . 'inc/colors.php' );
-require_once( PERIOD_PRO_PATH . 'inc/customizer.php' );
-require_once( PERIOD_PRO_PATH . 'inc/featured-videos.php' );
-require_once( PERIOD_PRO_PATH . 'inc/scripts.php' );
-require_once( PERIOD_PRO_PATH . 'inc/featured-sliders.php' );
-require_once( PERIOD_PRO_PATH . 'inc/featured-image-size.php' );
-require_once( PERIOD_PRO_PATH . 'inc/header-image.php' );
-require_once( PERIOD_PRO_PATH . 'inc/fonts.php' );
-require_once( PERIOD_PRO_PATH . 'inc/font-sizes.php' );
-require_once( PERIOD_PRO_PATH . 'inc/widget-areas.php' );
-require_once( PERIOD_PRO_PATH . 'inc/background.php' );
-require_once( PERIOD_PRO_PATH . 'inc/display-controls.php' );
-require_once( PERIOD_PRO_PATH . 'inc/footer-text.php' );
-require_once( PERIOD_PRO_PATH . 'inc/layout.php' );
-require_once( PERIOD_PRO_PATH . 'inc/page-layouts.php' );
-require_once( PERIOD_PRO_PATH . 'inc/menus.php' );
+require_once( BRAILLEWRIGHT_FEATURES_PATH . 'inc/colors.php' );
+require_once( BRAILLEWRIGHT_FEATURES_PATH . 'inc/customizer.php' );
+require_once( BRAILLEWRIGHT_FEATURES_PATH . 'inc/featured-videos.php' );
+require_once( BRAILLEWRIGHT_FEATURES_PATH . 'inc/scripts.php' );
+require_once( BRAILLEWRIGHT_FEATURES_PATH . 'inc/featured-sliders.php' );
+require_once( BRAILLEWRIGHT_FEATURES_PATH . 'inc/featured-image-size.php' );
+require_once( BRAILLEWRIGHT_FEATURES_PATH . 'inc/header-image.php' );
+require_once( BRAILLEWRIGHT_FEATURES_PATH . 'inc/fonts.php' );
+require_once( BRAILLEWRIGHT_FEATURES_PATH . 'inc/font-sizes.php' );
+require_once( BRAILLEWRIGHT_FEATURES_PATH . 'inc/widget-areas.php' );
+require_once( BRAILLEWRIGHT_FEATURES_PATH . 'inc/background.php' );
+require_once( BRAILLEWRIGHT_FEATURES_PATH . 'inc/display-controls.php' );
+require_once( BRAILLEWRIGHT_FEATURES_PATH . 'inc/footer-text.php' );
+require_once( BRAILLEWRIGHT_FEATURES_PATH . 'inc/layout.php' );
+require_once( BRAILLEWRIGHT_FEATURES_PATH . 'inc/page-layouts.php' );
+require_once( BRAILLEWRIGHT_FEATURES_PATH . 'inc/menus.php' );
 
 // Detect the optional MetaSlider plugin for the featured-sliders feature. Kept as
 // a named function because the theme dashboard uses function_exists() on it to
 // confirm the feature set is present. Formerly hooked on plugins_loaded; the theme
 // loads after all plugins, so it runs on after_setup_theme instead.
-function ct_period_pro_init() {
+function braillewright_features_init() {
 	if ( class_exists( 'MetaSliderPlugin' ) ) {
 		define( 'META_SLIDER_ACTIVE', true );
 	}
 }
-add_action( 'after_setup_theme', 'ct_period_pro_init' );
+add_action( 'after_setup_theme', 'braillewright_features_init' );
 
-function ct_period_pro_mods_to_remove( $mods_array ) {
+function braillewright_features_mods_to_remove( $mods_array ) {
 
 	$pro_mods = array(
 		'header_image_upload',
@@ -93,7 +93,7 @@ function ct_period_pro_mods_to_remove( $mods_array ) {
 		'footer_text'
 	);
 
-	$color_sections = ct_period_pro_custom_colors_data();
+	$color_sections = braillewright_features_custom_colors_data();
 
 	foreach ( $color_sections as $section ) {
 
@@ -109,9 +109,9 @@ function ct_period_pro_mods_to_remove( $mods_array ) {
 
 	return $mods_array;
 }
-add_action( 'ct_period_mods_to_remove', 'ct_period_pro_mods_to_remove' );
+add_action( 'braillewright_mods_to_remove', 'braillewright_features_mods_to_remove' );
 
-function ct_period_pro_sanitize_css( $css ) {
+function braillewright_features_sanitize_css( $css ) {
 	$css = wp_kses( $css, array( '\'', '\"' ) );
 	$css = str_replace( '&gt;', '>', $css );
 

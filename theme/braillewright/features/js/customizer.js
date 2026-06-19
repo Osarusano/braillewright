@@ -32,7 +32,7 @@ jQuery(document).ready(function($) {
 
             counter++;
 
-            $(this).next().css('background-image', 'url("' + ct_period_pro_objectL10n.PERIOD_PRO_URL + 'assets/images/textures/' + $(this).val() + '")');
+            $(this).next().css('background-image', 'url("' + braillewright_features_objectL10n.BRAILLEWRIGHT_FEATURES_URL + 'assets/images/textures/' + $(this).val() + '")');
 
             // add initial 'selected' class
             if ($(this).prop('checked')) {
@@ -75,7 +75,7 @@ jQuery(document).ready(function($) {
         });
     }
 
-    // label Braillewright Pro customizer sections
+    // label Braillewright customizer sections
     function addProlabel() {
 
         // to prevent running more than once per session
@@ -87,13 +87,13 @@ jQuery(document).ready(function($) {
 
             $.each(sections, function (key, value) {
                 if ( value == 'colors' || value == 'background' || value == 'show_hide' || value == 'fonts' || value == 'font_sizes' ) {
-                    panel.find('#accordion-panel-ct_period_pro_' + value + '_panel').children('h3').append(proLabel);
+                    panel.find('#accordion-panel-braillewright_features_' + value + '_panel').children('h3').append(proLabel);
                 }
                 else if ( value == 'layout' ) {
-                    panel.find('#accordion-panel-ct_period_' + value + '_panel').children('h3').append(proLabel);
+                    panel.find('#accordion-panel-braillewright_' + value + '_panel').children('h3').append(proLabel);
                 }
                 else {
-                    panel.find('#accordion-section-ct_period_pro_' + value).children('h3').append(proLabel);
+                    panel.find('#accordion-section-braillewright_features_' + value).children('h3').append(proLabel);
                 }
             });
             panel.addClass('pro-labels');
@@ -126,9 +126,9 @@ jQuery(document).ready(function($) {
     // For storing the weights for each font
     var fontData = []
     // Select the basic and advanced font panels
-    const fontPanels = panel.find('#sub-accordion-section-ct_period_pro_fonts, #sub-accordion-section-ct_period_pro_fonts_advanced');
+    const fontPanels = panel.find('#sub-accordion-section-braillewright_features_fonts, #sub-accordion-section-braillewright_features_fonts_advanced');
     // Store all the font weight data in fontData
-    $.getJSON(ct_period_pro_objectL10n.PERIOD_PRO_URL + "/assets/fonts.json", function (data) {
+    $.getJSON(braillewright_features_objectL10n.BRAILLEWRIGHT_FEATURES_URL + "/assets/fonts.json", function (data) {
         // Create an associative array with font names as keys and their respective weights as values
         $.each(data['items'], function (index, value) {
             fontData[value.family] = value.variants;

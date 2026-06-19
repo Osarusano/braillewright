@@ -13,13 +13,13 @@ parameters:
 			path: theme/braillewright/features/bootstrap.php
 
 		-
-			message: '#^Constant PERIOD_PRO_PATH not found\.$#'
+			message: '#^Constant BRAILLEWRIGHT_FEATURES_PATH not found\.$#'
 			identifier: constant.notFound
 			count: 1
 			path: theme/braillewright/features/inc/background.php
 
 		-
-			message: '#^Constant PERIOD_PRO_URL not found\.$#'
+			message: '#^Constant BRAILLEWRIGHT_FEATURES_URL not found\.$#'
 			identifier: constant.notFound
 			count: 2
 			path: theme/braillewright/features/inc/background.php
@@ -31,13 +31,13 @@ parameters:
 			path: theme/braillewright/features/inc/customizer.php
 
 		-
-			message: '#^Parameter \#3 \$args of class WP_Customize_Image_Control constructor expects array\{instance_number\?\: int, manager\?\: WP_Customize_Manager, id\?\: string, settings\?\: array, setting\?\: string, capability\?\: string, priority\?\: int, section\?\: string, \.\.\.\}, array\{label\: string, section\: ''ct_period_pro…'', settings\: ''background_image…''\} given\.$#'
+			message: '#^Parameter \#3 \$args of class WP_Customize_Image_Control constructor expects array\{instance_number\?\: int, manager\?\: WP_Customize_Manager, id\?\: string, settings\?\: array, setting\?\: string, capability\?\: string, priority\?\: int, section\?\: string, \.\.\.\}, array\{label\: string, section\: ''braillewright_features…'', settings\: ''background_image…''\} given\.$#'
 			identifier: argument.type
 			count: 2
 			path: theme/braillewright/features/inc/customizer.php
 
 		-
-			message: '#^Parameter \#3 \$args of class WP_Customize_Image_Control constructor expects array\{instance_number\?\: int, manager\?\: WP_Customize_Manager, id\?\: string, settings\?\: array, setting\?\: string, capability\?\: string, priority\?\: int, section\?\: string, \.\.\.\}, array\{label\: string, section\: ''ct_period_pro…'', settings\: ''header_image_upload''\} given\.$#'
+			message: '#^Parameter \#3 \$args of class WP_Customize_Image_Control constructor expects array\{instance_number\?\: int, manager\?\: WP_Customize_Manager, id\?\: string, settings\?\: array, setting\?\: string, capability\?\: string, priority\?\: int, section\?\: string, \.\.\.\}, array\{label\: string, section\: ''braillewright_features…'', settings\: ''header_image_upload''\} given\.$#'
 			identifier: argument.type
 			count: 1
 			path: theme/braillewright/features/inc/customizer.php
@@ -49,13 +49,13 @@ parameters:
 			path: theme/braillewright/features/inc/featured-videos.php
 
 		-
-			message: '#^Constant PERIOD_PRO_PATH not found\.$#'
+			message: '#^Constant BRAILLEWRIGHT_FEATURES_PATH not found\.$#'
 			identifier: constant.notFound
 			count: 1
 			path: theme/braillewright/features/inc/fonts.php
 
 		-
-			message: '#^Constant PERIOD_PRO_URL not found\.$#'
+			message: '#^Constant BRAILLEWRIGHT_FEATURES_URL not found\.$#'
 			identifier: constant.notFound
 			count: 12
 			path: theme/braillewright/features/inc/scripts.php
@@ -133,25 +133,25 @@ parameters:
 			path: theme/braillewright/inc/customizer.php
 
 		-
-			message: '#^Parameter \#3 \$args of class WP_Customize_Image_Control constructor expects array\{instance_number\?\: int, manager\?\: WP_Customize_Manager, id\?\: string, settings\?\: array, setting\?\: string, capability\?\: string, priority\?\: int, section\?\: string, \.\.\.\}, array\{label\: string, section\: ''ct_period_logo…'', settings\: ''logo_upload''\} given\.$#'
+			message: '#^Parameter \#3 \$args of class WP_Customize_Image_Control constructor expects array\{instance_number\?\: int, manager\?\: WP_Customize_Manager, id\?\: string, settings\?\: array, setting\?\: string, capability\?\: string, priority\?\: int, section\?\: string, \.\.\.\}, array\{label\: string, section\: ''braillewright_logo…'', settings\: ''logo_upload''\} given\.$#'
 			identifier: argument.type
 			count: 1
 			path: theme/braillewright/inc/customizer.php
 
 		-
-			message: '#^Parameter \#3 \$args of class WP_Customize_Image_Control constructor expects array\{instance_number\?\: int, manager\?\: WP_Customize_Manager, id\?\: string, settings\?\: array, setting\?\: string, capability\?\: string, priority\?\: int, section\?\: string, \.\.\.\}, array\{label\: string, section\: ''ct_period_social…'', settings\: ''social_icon_custom…'', priority\: 12\|17\|int\<22, max\>\} given\.$#'
+			message: '#^Parameter \#3 \$args of class WP_Customize_Image_Control constructor expects array\{instance_number\?\: int, manager\?\: WP_Customize_Manager, id\?\: string, settings\?\: array, setting\?\: string, capability\?\: string, priority\?\: int, section\?\: string, \.\.\.\}, array\{label\: string, section\: ''braillewright_social…'', settings\: ''social_icon_custom…'', priority\: 12\|17\|int\<22, max\>\} given\.$#'
 			identifier: argument.type
 			count: 1
 			path: theme/braillewright/inc/customizer.php
 
 		-
-			message: '#^Parameter \#3 \$args of class WP_Customize_Image_Control constructor expects array\{instance_number\?\: int, manager\?\: WP_Customize_Manager, id\?\: string, settings\?\: array, setting\?\: string, capability\?\: string, priority\?\: int, section\?\: string, \.\.\.\}, array\{label\: string, section\: ''ct_period_social…'', settings\: ''social_icon_custom…'', priority\: 16\|21\|int\<26, max\>\} given\.$#'
+			message: '#^Parameter \#3 \$args of class WP_Customize_Image_Control constructor expects array\{instance_number\?\: int, manager\?\: WP_Customize_Manager, id\?\: string, settings\?\: array, setting\?\: string, capability\?\: string, priority\?\: int, section\?\: string, \.\.\.\}, array\{label\: string, section\: ''braillewright_social…'', settings\: ''social_icon_custom…'', priority\: 16\|21\|int\<26, max\>\} given\.$#'
 			identifier: argument.type
 			count: 1
 			path: theme/braillewright/inc/customizer.php
 
 		-
-			message: '#^Parameter \#3 \$args of class WP_Customize_Image_Control constructor expects array\{instance_number\?\: int, manager\?\: WP_Customize_Manager, id\?\: string, settings\?\: array, setting\?\: string, capability\?\: string, priority\?\: int, section\?\: string, \.\.\.\}, array\{label\: string, section\: ''ct_period_social…'', settings\: ''social_icon_custom…'', priority\: 20\|25\|int\<30, max\>\} given\.$#'
+			message: '#^Parameter \#3 \$args of class WP_Customize_Image_Control constructor expects array\{instance_number\?\: int, manager\?\: WP_Customize_Manager, id\?\: string, settings\?\: array, setting\?\: string, capability\?\: string, priority\?\: int, section\?\: string, \.\.\.\}, array\{label\: string, section\: ''braillewright_social…'', settings\: ''social_icon_custom…'', priority\: 20\|25\|int\<30, max\>\} given\.$#'
 			identifier: argument.type
 			count: 1
 			path: theme/braillewright/inc/customizer.php

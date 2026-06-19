@@ -33,21 +33,21 @@
   text-align: center;
 }
 
-#sub-accordion-section-ct_period_pro_fonts select.custom,
-#sub-accordion-section-ct_period_pro_fonts_advanced select.custom {
+#sub-accordion-section-braillewright_features_fonts select.custom,
+#sub-accordion-section-braillewright_features_fonts_advanced select.custom {
   border-left: solid 3px #05B0E7;
 }
-#sub-accordion-section-ct_period_pro_fonts #_customize-input-font_language,
-#sub-accordion-section-ct_period_pro_fonts_advanced #_customize-input-font_language {
+#sub-accordion-section-braillewright_features_fonts #_customize-input-font_language,
+#sub-accordion-section-braillewright_features_fonts_advanced #_customize-input-font_language {
   border-left: solid 1px #8c8f94;
 }
 
-#sub-accordion-section-ct_period_pro_fonts .customize-control:nth-child(2n) {
+#sub-accordion-section-braillewright_features_fonts .customize-control:nth-child(2n) {
   border-bottom: 1px #D9D9D9 solid;
   padding-bottom: 18px;
 }
 
-#sub-accordion-section-ct_period_pro_fonts_advanced .customize-control:nth-child(2n+1) {
+#sub-accordion-section-braillewright_features_fonts_advanced .customize-control:nth-child(2n+1) {
   border-bottom: 1px #D9D9D9 solid;
   padding-bottom: 18px;
 }

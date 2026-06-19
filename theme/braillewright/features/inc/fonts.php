@@ -1,9 +1,9 @@
 <?php
 defined( 'ABSPATH' ) OR exit;
 
-function ct_period_pro_get_fonts() {
+function braillewright_features_get_fonts() {
 
-	$fonts_dir = PERIOD_PRO_PATH . "assets/fonts.json";
+	$fonts_dir = BRAILLEWRIGHT_FEATURES_PATH . "assets/fonts.json";
 	$fonts     = file_get_contents( $fonts_dir );
 
 	if ( is_string( $fonts ) && ! empty( $fonts ) ) {
@@ -16,10 +16,10 @@ function ct_period_pro_get_fonts() {
 }
 
 // return the available fonts in a format the customizer can use
-function ct_period_pro_prepare_fonts() {
+function braillewright_features_prepare_fonts() {
 
 	// get fonts array from fonts.json file
-	$fonts = ct_period_pro_get_fonts();
+	$fonts = braillewright_features_get_fonts();
 
 	$font_families = array();
 
@@ -42,9 +42,9 @@ function ct_period_pro_prepare_fonts() {
 	return $font_families;
 }
 
-function ct_period_pro_font_css() {
+function braillewright_features_font_css() {
 
-	$fonts = ct_period_pro_user_fonts();
+	$fonts = braillewright_features_user_fonts();
 	$css   = '';
 
 	// Loop through all the Customizer font options
@@ -258,18 +258,18 @@ function ct_period_pro_font_css() {
 
 	if ( ! empty( $css ) ) {
 
-		$css = ct_period_pro_sanitize_css( $css );
+		$css = braillewright_features_sanitize_css( $css );
 
-		wp_add_inline_style( 'ct-period-style', $css );
-		wp_add_inline_style( 'ct-period-style-rtl', $css );
+		wp_add_inline_style( 'braillewright-style', $css );
+		wp_add_inline_style( 'braillewright-style-rtl', $css );
 	}
 }
-add_action( 'wp_enqueue_scripts', 'ct_period_pro_font_css', 99 );
+add_action( 'wp_enqueue_scripts', 'braillewright_features_font_css', 99 );
 
-function ct_period_pro_register_new_font() {
+function braillewright_features_register_new_font() {
 
 	// Get the fonts saved in the Customizer
-	$fonts 	  = ct_period_pro_user_fonts();
+	$fonts 	  = braillewright_features_user_fonts();
 	$language = get_theme_mod( 'font_language' ) ? get_theme_mod( 'font_language' ) : 'latin-ext';
 
 	// Loop through all the Customizer font options
@@ -289,15 +289,15 @@ function ct_period_pro_register_new_font() {
 			// Format the GF request URL
 			$font_url = add_query_arg( $font_args, '//fonts.googleapis.com/css' );
 			// Register and enqueue the new stylesheet
-			wp_register_style( 'ct-period-pro-'. $element .'-google-fonts', $font_url );
-			wp_enqueue_style( 'ct-period-pro-'. $element .'-google-fonts' );
+			wp_register_style( 'braillewright-features-'. $element .'-google-fonts', $font_url );
+			wp_enqueue_style( 'braillewright-features-'. $element .'-google-fonts' );
 		}
 	};
 }
-add_action( 'wp_enqueue_scripts', 'ct_period_pro_register_new_font', 30 );
+add_action( 'wp_enqueue_scripts', 'braillewright_features_register_new_font', 30 );
 
 // Get user's fonts saved in Customizer
-function ct_period_pro_user_fonts() {
+function braillewright_features_user_fonts() {
 
 	$fonts = array(
 		'primary' => array(
