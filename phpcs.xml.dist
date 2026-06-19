@@ -4,7 +4,6 @@
 
     <!-- What to scan (paths are relative to this file = repo root). -->
     <file>theme/braillewright</file>
-    <file>plugin/braillewright-pro</file>
     <file>tools</file>
 
     <!-- Only PHP; plus performance + readability args. -->
