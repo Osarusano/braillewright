@@ -21,7 +21,7 @@ jobs:
     name: PHP syntax lint (8.3)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Set up PHP 8.3
         uses: shivammathur/setup-php@v2
         with:
@@ -42,7 +42,7 @@ jobs:
     name: PHP 8.3+ compatibility (PHPCompatibility)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Set up PHP 8.3 + Composer
         uses: shivammathur/setup-php@v2
         with:
@@ -70,7 +70,7 @@ jobs:
     name: Static analysis (PHPStan + WordPress stubs)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Set up PHP 8.3 + Composer
         uses: shivammathur/setup-php@v2
         with:
@@ -93,7 +93,7 @@ jobs:
     name: Coding standards + security (PHPCS WordPress-Extra)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Set up PHP 8.3 + Composer
         uses: shivammathur/setup-php@v2
         with:
@@ -135,7 +135,7 @@ jobs:
     name: Accessibility (wp-env + axe/pa11y + Lighthouse)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Set up Node
         uses: actions/setup-node@v6
         with:
@@ -182,7 +182,7 @@ jobs:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Upload theme/braillewright as the wpcom artifact
         uses: actions/upload-artifact@v7
         with:
